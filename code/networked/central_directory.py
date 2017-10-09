@@ -65,15 +65,12 @@ class PaxosDirectory(object):
         while (1):
             print "listening ... "
             cli_sock, addr = serv_sock.accept()
-            print "recieved connection from %s ", addr 
+            print "recieved connection from {0}", addr 
             self.handle_connection(cli_sock)
     
     
     def handle_connection(self, in_sock):
-        print "about to read in data ..."
         in_file = in_sock.makefile('r',0) # open the socket as a file object, read-only, unbuffered
-        
-        print "got the file-like object for the connection ...", in_file
         cli_data = json.load(in_file) #
 #        json_str = ''
 #        in_size = 1

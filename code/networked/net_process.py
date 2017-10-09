@@ -53,9 +53,10 @@ class Process(Thread):
           self.body()
           print "exited body"
           self.remove()
-      except EOFError:
+      except:
           print "Exiting.."
-          
+          self.in_serv.shutdown()
+
 
     def getNextMessage(self):
         in_sock = self.inbox.get(block=True)
