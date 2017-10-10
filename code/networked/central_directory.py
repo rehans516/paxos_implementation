@@ -8,8 +8,7 @@ The directory keeps track of connected processes and provides a simple discovery
 When a new process starts, it registers itself with the directory and fetches connection info
 about other processes of interest.
 
-The connection info is contained in table procs as follows:
-    procs = []
+The connection info is contained in the table PaxosProcs as below.
 
 In any communication session with the directory, a process sends one of two commands:
     1. register[role] where role is one of 'client', 'replica', 'leader', 'scout', 'commander', 'acceptor'
@@ -72,17 +71,6 @@ class PaxosDirectory(object):
     def handle_connection(self, in_sock):
         in_file = in_sock.makefile('r',0) # open the socket as a file object, read-only, unbuffered
         cli_data = json.load(in_file) #
-#        json_str = ''
-#        in_size = 1
-#        
-#        while in_size > 0:
-#            in_data = in_sock.recv(1024)
-#            json_str += in_data
-#            in_size = len(in_data)
-#            print in_data + ": " + str(in_size)
-#            
-#        print "json string", json_str
-#        cli_data = json.loads(json_str) # 
         
         print "read the request into json object for the connection ...", cli_data
 
