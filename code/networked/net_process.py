@@ -4,7 +4,7 @@ Created on Sat Oct 07 03:23:29 2017
 
 @author: Malumbo
 """
-import multiprocessing, socket, json
+import multiprocessing, socket, json, time
 from threading import Thread
 from paxos_sockets import p_sockets_serv, p_sockets_client
 
@@ -64,8 +64,12 @@ class Process(Thread):
         return msg
         
     def sendMessage(self, dst_port, dst_proc, msg):
-        p_sockets_client(json.dumps(msg), dst_port, dst_proc).start()
+        msg_conn = p_sockets_client(json.dumps(msg), self.dir_host, dst_port, dst_proc)
+        msg_conn.start()
         
     def remove(self):
-        p_sockets_client(json.dumps({'role':self.role, 'proc_num':self.id}), self.dir_port, '-1').start()
+        print "executing remove!!"
+        msg = json.dumps({'command':'remove', 'role':self.role, 'proc_num':self.id})
+        msg_conn = p_sockets_client(msg, self.dir_host, self.dir_port, '-1')
+        msg_conn.start()
 

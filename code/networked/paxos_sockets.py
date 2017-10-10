@@ -8,16 +8,15 @@ import socket
 from threading import Thread
 
 class p_sockets_client(Thread):
-    def __init__(self, msg, dst_port, dst_proc):
+    def __init__(self, msg, dst_host, dst_port, dst_proc):
         super(p_sockets_client, self).__init__()
-        self.msg = msg, self.dst_port = dst_port, self.dst_proc = dst_proc
+        self.msg, self.dst_host, self.dst_port, self.dst_proc = msg, dst_host, dst_port, dst_proc
         
     def run(self):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
+        
         # connect to server
-        host = 'localhost'  # server address
-        sock.connect((host, int(self.dst_port)))
+        sock.connect((self.dst_host, self.dst_port))
         
         try:
             sock.sendall(self.msg)  # send the msg
@@ -25,8 +24,6 @@ class p_sockets_client(Thread):
             sock.close()
         except:
             print "%s :connection closed abruptly", self.dst_proc
-
-
 
 
 class p_sockets_serv(Thread):
